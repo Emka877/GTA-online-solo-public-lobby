@@ -1,0 +1,9 @@
+[package]
+name = "gtao-solo-lobby"
+version = "1.0.0"
+authors = ["Oscuro87"]
+edition = "2018"
+
+[dependencies]
+sysinfo = "*"
+remoteprocess = "*"
