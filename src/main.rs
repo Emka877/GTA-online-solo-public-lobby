@@ -19,8 +19,10 @@ fn main() {
     println!("Process GTA5.exe opened.");
     let _lock = gta_v.lock().expect("Cannot lock (suspend) GTA5.exe!");
     println!("Process GTA5.exe suspended for 10 seconds... (Game will freeze for 10 secs)");
-    let duration: Duration = Duration::from_secs(10);
-    std::thread::sleep(duration);
-    println!("Everyone should be gone now, hf");
+    let duration: Duration = Duration::from_secs(1);
+    for i in 0..10 {
+        std::thread::sleep(duration);
+        println!("{}...", 9 - i);
+    }
     // Lock is autoreleased here as the lock is being destroyed.
 }
