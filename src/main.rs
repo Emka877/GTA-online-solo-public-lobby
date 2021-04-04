@@ -1,7 +1,26 @@
-use core::panic;
-use std::{process::Command, time::Duration};
+use std::{time::Duration};
 use sysinfo::{ProcessExt, System, SystemExt};
+use std::io::{stdin, stdout, Read, Write};
 
+enum Errors {
+    NoProcess = 1,
+    CantAttach = 2,
+}
+
+impl Errors {
+    pub fn as_int(self) -> i32 {
+        self as i32
+    }
+}
+
+
+fn pause() {
+    let mut stdout = stdout();
+    let mut empty_buffer: &mut [u8] = &mut [0];
+    stdout.write("Press any key...".as_bytes()).unwrap();
+    stdout.flush().unwrap();
+    stdin().read(&mut empty_buffer).unwrap(); // Blocking read
+}
 
 fn main() {
     let scan = System::new_all();
@@ -10,7 +29,9 @@ fn main() {
 
     // There should be only one GTA5 running
     if gta_processes.len() == 0 {
-        panic!("Cannot find any running GTA5 processes. You must start GTA5 and go to a public lobby.");
+        println!("Cannot find any running GTA5 processes. You must start GTA5 and go to a public lobby.");
+        pause();
+        std::process::exit(Errors::NoProcess.as_int());
     } else if gta_processes.len() >= 1 {
         pid = gta_processes[0].pid();
     }
@@ -19,14 +40,14 @@ fn main() {
         Ok(x) => x,
         Err(_) => {
             println!("Error: Cannot attach to the GTA5 process.\nTry again or report the bug here: https://github.com/Oscuro87/gtao-solo-lobby/issues/new.");
-            let _ = Command::new("pause").status();
-            std::process::exit(1);
+            pause();
+            std::process::exit(Errors::CantAttach.as_int());
         }
     };
 
     println!("Process GTA5.exe opened.");
     println!("Process GTA5.exe suspended for 10 seconds... (Game will freeze for 10 secs)");
-    
+
     let _lock = gta_v.lock().expect("Cannot lock (suspend) GTA5.exe!");
     // We are controlling GTA5's process from here.
     let duration: Duration = Duration::from_secs(1);
