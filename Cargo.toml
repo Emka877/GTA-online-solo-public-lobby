@@ -9,7 +9,6 @@ repository = "https://github.com/Oscuro87/gtao-solo-lobby/"
 name = "gtao-solo-lobby"
 test = false
 bench = false
-crate-type = ["bin"]
 
 [dependencies]
 sysinfo = "0.16.5"
