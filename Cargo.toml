@@ -1,9 +1,16 @@
 [package]
 name = "gtao-solo-lobby"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Oscuro87"]
 edition = "2018"
+repository = "https://github.com/Oscuro87/gtao-solo-lobby/"
+
+[[bin]]
+name = "gtao-solo-lobby"
+test = false
+bench = false
+crate-type = ["bin"]
 
 [dependencies]
-sysinfo = "*"
-remoteprocess = "*"
+sysinfo = "0.16.5"
+remoteprocess = "0.4.3"
