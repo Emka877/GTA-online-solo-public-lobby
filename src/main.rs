@@ -52,8 +52,9 @@ fn main() {
     // We are controlling GTA5's process from here.
     let duration: Duration = Duration::from_secs(1);
     for i in 0..10 {
+        print!("{}... ", 10 - i);
+        stdout().flush().unwrap();
         std::thread::sleep(duration);
-        print!("{}... ", 9 - i);
     }
     // Lock is autoreleased here as the lock is being destroyed.
 }
