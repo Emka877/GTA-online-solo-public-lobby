@@ -7,8 +7,8 @@ enum Errors {
     CantAttach = 2,
 }
 
-impl Errors {
-    pub fn as_int(self) -> i32 {
+impl Into<i32> for Errors {
+    fn into(self) -> i32 {
         self as i32
     }
 }
@@ -31,7 +31,7 @@ fn main() {
     if gta_processes.len() == 0 {
         println!("Cannot find any running GTA5 processes. You must start GTA5 and go to a public lobby.");
         pause();
-        std::process::exit(Errors::NoProcess.as_int());
+        std::process::exit(Errors::NoProcess.into());
     } else if gta_processes.len() >= 1 {
         pid = gta_processes[0].pid();
     }
@@ -41,7 +41,7 @@ fn main() {
         Err(_) => {
             println!("Error: Cannot attach to the GTA5 process.\nTry again or report the bug here: https://github.com/Oscuro87/gtao-solo-lobby/issues/new.");
             pause();
-            std::process::exit(Errors::CantAttach.as_int());
+            std::process::exit(Errors::CantAttach.into());
         }
     };
 
@@ -50,11 +50,11 @@ fn main() {
 
     let _lock = gta_v.lock().expect("Cannot lock (suspend) GTA5.exe!");
     // We are controlling GTA5's process from here.
-    let duration: Duration = Duration::from_secs(1);
+    let duration: Duration = Duration::from_millis(250);
     for i in 0..10 {
         print!("{}... ", 10 - i);
         stdout().flush().unwrap();
         std::thread::sleep(duration);
     }
-    // Lock is autoreleased here as the lock is being destroyed.
+    // Lock is auto released here as the lock is being destroyed.
 }
