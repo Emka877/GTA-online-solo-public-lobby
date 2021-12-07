@@ -46,6 +46,7 @@ fn main() {
     };
 
     println!("Process GTA5.exe opened.");
+    println!("DO NOT CLOSE THIS WINDOW  OR YOUR GAME WILL HANG FOREVER.");
     println!("Process GTA5.exe suspended for 10 seconds... (Game will freeze for 10 secs)");
 
     let _lock = gta_v.lock().expect("Cannot lock (suspend) GTA5.exe!");
