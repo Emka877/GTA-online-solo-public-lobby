@@ -1,6 +1,6 @@
 [package]
 name = "gtao-solo-lobby"
-version = "1.0.3"
+version = "1.0.5"
 authors = ["Oscuro87"]
 edition = "2021"
 repository = "https://github.com/Oscuro87/gtao-solo-lobby/"

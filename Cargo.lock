@@ -297,7 +297,7 @@ dependencies = [
 
 [[package]]
 name = "gtao-solo-lobby"
-version = "1.0.3"
+version = "1.0.5"
 dependencies = [
  "remoteprocess",
  "winproc",
