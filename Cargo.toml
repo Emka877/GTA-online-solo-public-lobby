@@ -1,8 +1,8 @@
 [package]
 name = "gtao-solo-lobby"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["Oscuro87"]
-edition = "2018"
+edition = "2021"
 repository = "https://github.com/Oscuro87/gtao-solo-lobby/"
 
 [[bin]]
@@ -11,5 +11,5 @@ test = false
 bench = false
 
 [dependencies]
-sysinfo = "0.16.5"
-remoteprocess = "0.4.3"
+remoteprocess = "0.4.10"
+winproc = "0.6.4"

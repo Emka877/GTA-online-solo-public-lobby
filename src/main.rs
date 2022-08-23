@@ -1,6 +1,6 @@
 use std::{time::Duration};
-use sysinfo::{ProcessExt, System, SystemExt};
 use std::io::{stdin, stdout, Read, Write};
+use winproc::Process;
 
 enum Errors {
     NoProcess = 1,
@@ -13,7 +13,6 @@ impl Into<i32> for Errors {
     }
 }
 
-
 fn pause() {
     let mut stdout = stdout();
     let mut empty_buffer: &mut [u8] = &mut [0];
@@ -22,21 +21,21 @@ fn pause() {
     stdin().read(&mut empty_buffer).unwrap(); // Blocking read
 }
 
-fn main() {
-    let scan = System::new_all();
-    let gta_processes = scan.get_process_by_name("GTA5.exe");
-    let mut pid: usize = 0;
-
-    // There should be only one GTA5 running
-    if gta_processes.len() == 0 {
-        println!("Cannot find any running GTA5 processes. You must start GTA5 and go to a public lobby.");
-        pause();
-        std::process::exit(Errors::NoProcess.into());
-    } else if gta_processes.len() >= 1 {
-        pid = gta_processes[0].pid();
+fn get_gta5_pid() -> u32 {
+    match Process::from_name("GTA5.exe") {
+        Ok(proc) => proc.id(),
+        Err(_err) => {
+            println!("Cannot find any running GTA5 processes. You must start GTA5 and go to a public lobby.");
+            pause();
+            std::process::exit(Errors::NoProcess.into());
+        }
     }
+}
 
-    let gta_v = match remoteprocess::Process::new(pid as u32) {
+fn main() {
+    let pid: u32 = get_gta5_pid();
+
+    let gta_v = match remoteprocess::Process::new(pid) {
         Ok(x) => x,
         Err(_) => {
             println!("Error: Cannot attach to the GTA5 process.\nTry again or report the bug here: https://github.com/Oscuro87/gtao-solo-lobby/issues/new.");
